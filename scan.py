@@ -1,6 +1,6 @@
 import os
 import sys
-import time
+
 
 ## making nmap dir ##
 dir_name = "nmap"
