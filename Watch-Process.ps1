@@ -14,6 +14,7 @@ $scriptBlock = {
         $process | Add-Member -NotePropertyName Owner -NotePropertyValue $owner -PassThru
     } else {
         Write-Host "Process '$processName' not found."
+        Write-Host "Trying again."
     }
 }
 
