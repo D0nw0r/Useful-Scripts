@@ -15,6 +15,7 @@ else:
 ### Scan
 print("[+]" * 15)
 print("Scanning target")
+print(f"nmap -T4 -p- -A -sC -vv {sys.argv[1]} -oA nmap/initial")
 if(len(sys.argv) <=2):
     os.system(f"nmap -T4 -p- -A -sC -vv {sys.argv[1]} -oA nmap/initial")
 elif(sys.argv[2] == "-Pn"):
