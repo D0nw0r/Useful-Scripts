@@ -4,6 +4,11 @@ def format_usernames(usernames):
     formatted_usernames = []
     for username in usernames:
         parts = username.split()  # Split the username into parts using spaces as separator
+
+        if len(parts) == 1:
+            # If it's a single name, just append it as it is
+            formatted_usernames.append(username)
+            
         if len(parts) == 2:
             first_name, last_name = parts[0], parts[1]
             # Rule 1: FirstName.LastName
@@ -18,11 +23,29 @@ def format_usernames(usernames):
             # Rule 4: firstletteroffirstname.lastname (lowercase)
             formatted_usernames.append(f"{first_name[0].lower()}.{last_name.lower()}")
             
+            # Rule 5: FirstName-LastName
+            formatted_usernames.append(f"{first_name}-{last_name}")
+            
+            # Rule 6: FirstLetterofFirstName-LastName
+            formatted_usernames.append(f"{first_name[0]}-{last_name}")
+
+            # Rule 7: FirstNameLastName
+            formatted_usernames.append(f"{first_name}{last_name}")
+
+            # Rule 7: FirstNameLastName (lowercase)
+            formatted_usernames.append(f"{first_name.lower()}{last_name.lower()}")
+
+            # Rule 8: FirstLetterofFirstNameLastName
+            formatted_usernames.append(f"{first_name[0]}{last_name}")
+
+            # Rule 8: FirstLetterofFirstName-LastName
+            formatted_usernames.append(f"{first_name[0]}-{last_name}")
+            
             # You can add more formatting rules here as needed
             
-        else:
-            # Handle invalid username format
-            formatted_usernames.append(f"Invalid: {username}")
+        # else:
+        #     # Handle invalid username format
+        #     formatted_usernames.append(f"Invalid: {username}")
     
     return formatted_usernames
 
