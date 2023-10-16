@@ -6,8 +6,10 @@ def format_usernames(usernames):
         parts = username.split()  # Split the username into parts using spaces as separator
 
         if len(parts) == 1:
-            # If it's a single name, just append it as it is
+            # If it's a single name, just append it as it is or lowercase
             formatted_usernames.append(username)
+
+            formatted_usernames.append(str(username).lower())
             
         if len(parts) == 2:
             first_name, last_name = parts[0], parts[1]
