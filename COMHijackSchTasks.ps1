@@ -19,6 +19,16 @@ function FindCLSIDInRegistry($clsid) {
     return $null
 }
 
+function CheckCLSIDAvailabilityInHKCU($clsid) {
+    $hkcuPath = "HKCU:\SOFTWARE\Classes\CLSID\$clsid"
+    $hkcrPath = if (Test-Path "HKCR:\CLSID\$clsid") {"HKCR:\CLSID\$clsid"} else {"HKLM:\SOFTWARE\Classes\CLSID\$clsid"}
+
+    $existsInHKCR = Test-Path $hkcrPath -ErrorAction SilentlyContinue
+    $existsInHKCU = Test-Path $hkcuPath -ErrorAction SilentlyContinue
+
+    return $existsInHKCR -and -not $existsInHKCU
+}
+
 try {
     $Tasks = Get-ScheduledTask -ErrorAction SilentlyContinue
     if ($null -eq $Tasks) {
@@ -31,7 +41,7 @@ try {
 }
 
 foreach ($Task in $Tasks) {
-    if ($Task -and $Task.Actions.ClassId -ne $null -and $Task.Triggers.Enabled -eq $true -and $Task.Principal.GroupId -eq "Users") {
+    if ($Task.Actions.ClassId -ne $null -and $Task.Triggers.Enabled -eq $true -and $Task.Principal.GroupId -eq "Users") {
         Write-Host "Task Name: " $Task.TaskName
         Write-Host "Task Path: " $Task.TaskPath
         Write-Host "CLSID: " $Task.Actions.ClassId
@@ -43,6 +53,10 @@ foreach ($Task in $Tasks) {
             Write-Host "CLSID Location: Not found in registry"
         }
 
+        if (CheckCLSIDAvailabilityInHKCU($Task.Actions.ClassId)) {
+            Write-Host "CLSID can be duplicated in HKCU" -ForegroundColor Red
+        }
+    
         Write-Host
     }
 }
